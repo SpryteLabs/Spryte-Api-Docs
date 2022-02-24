@@ -3,7 +3,7 @@ info:
   title: "Spryte Labs API"
   description: "Get access to Spryte objects like, Vendors, Developers, Internships, etc."
   x-logo:
-    url: "../../assets/spryte-logo.png"
+    url: "./assets/spryte-logo.png"
     backgroundColor: "#FFFFFF"
     altText: "Spryte Labs logo"
   version: "1.0"
