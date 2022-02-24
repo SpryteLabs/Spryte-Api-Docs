@@ -1,0 +1,198 @@
+openapi: "3.0.2"
+info:
+  title: "Spryte Labs API"
+  description: "Get access to Spryte objects like, Vendors, Developers, Internships, etc."
+  x-logo:
+    url: "../../assets/spryte-logo.png"
+    backgroundColor: "#FFFFFF"
+    altText: "Spryte Labs logo"
+  version: "1.0"
+  termsOfService: "https://sprytelab.com"
+  contact:
+    name: "Spryte Labs API"
+    url: "https://sprytelab.com/api"
+    email: "contact@sprytelab.com"
+
+servers:
+- url: "https://api.sprytelab.com/data/v1"
+
+schemes:
+- "https"
+
+paths:
+  /vendor/devProfiles:
+    get:
+      tags:
+      - Devs Associated With a Vendor
+      summary: "Gets a list of devs associated with a vendor."
+      description: "Access Devs associated with a Vendor."
+      operationId: getDevsAssociatedWithVendor
+      produces:
+      - "application/json"
+      
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200'
+        "403":
+          description: Access Forbidden
+          content:
+            text/plain:
+              schema:
+                title: Token Incorrect
+                type: string
+security:
+- app_id: []
+
+components:
+
+  parameters:
+    q:
+      name: q
+      in: query
+      description: "**City name**. *Example: London*. You can call by city name, or by city name and country code. The API responds with a list of results that match a searching word. For the query value, type the city name and optionally the country code divided by a comma; use ISO 3166 country codes."
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: "**City ID**. *Example: `2172797`*. You can call by city ID. The API responds with the exact result. The List of city IDs can be downloaded [here](http://bulk.openweathermap.org/sample/). You can include multiple cities in this parameter &mdash; just separate them by commas. The limit of locations is 20. *Note: A single ID counts as a one API call. So, if you have city IDs, it's treated as 3 API calls.*"
+      schema:
+        type: string
+
+    lat:
+      name: lat
+      in: query
+      description: "**Latitude**. *Example: 35*. The latitude coordinate of the location of your interest. Must use with `lon`."
+      schema:
+        type: string
+
+    lon:
+      name: lon
+      in: query
+      description: "**Longitude**. *Example: 139*. Longitude coordinate of the location of your interest. Must use with `lat`."
+      schema:
+        type: string
+
+    zip:
+      name: zip
+      in: query
+      description: "**Zip code**. Search by zip code. *Example: 95050,us*. Please note that if the country is not specified, the search uses USA as a default."
+      schema:
+        type: string
+
+    units:
+      name: units
+      in: query
+      description: '**Units**. *Example: imperial*. Possible values: `standard`, `metric`, and `imperial`. When you do not use the `units` parameter, the format is `standard` by default.'
+      schema:
+        type: string
+        enum: [standard, metric, imperial]
+        default: "imperial"
+
+    lang:
+      name: lang
+      in: query
+      description: '**Language**. *Example: en*. You can use lang parameter to get the output in your language. We support the following languages that you can use with the corresponded lang values: Arabic - `ar`, Bulgarian - `bg`, Catalan - `ca`, Czech - `cz`, German - `de`, Greek - `el`, English - `en`, Persian (Farsi) - `fa`, Finnish - `fi`, French - `fr`, Galician - `gl`, Croatian - `hr`, Hungarian - `hu`, Italian - `it`, Japanese - `ja`, Korean - `kr`, Latvian - `la`, Lithuanian - `lt`, Macedonian - `mk`, Dutch - `nl`, Polish - `pl`, Portuguese - `pt`, Romanian - `ro`, Russian - `ru`, Swedish - `se`, Slovak - `sk`, Slovenian - `sl`, Spanish - `es`, Turkish - `tr`, Ukrainian - `ua`, Vietnamese - `vi`, Chinese Simplified - `zh_cn`, Chinese Traditional - `zh_tw`.'
+      schema:
+        type: string
+        enum: [ar, bg, ca, cz, de, el, en, fa, fi, fr, gl, hr, hu, it, ja, kr, la, lt, mk, nl, pl, pt, ro, ru, se, sk, sl, es, tr, ua, vi, zh_cn, zh_tw]
+        default: "en"
+
+    mode:
+      name: mode
+      in: query
+      description: "**Mode**. *Example: html*. Determines the format of the response. Possible values are `json`, `xml`, and `html`. If the mode parameter is empty, the format is `json` by default."
+      schema:
+        type: string
+        enum: [json, xml, html]
+        default: "json"
+
+  schemas:
+    "200":
+      title: Successful response
+      type: object
+      properties:
+        vendor_user_id:
+          type: string
+          description: Unique Spryte User Identifier
+          example: 3FehOzZvdAYvLPti8lG4RmPOEcD3
+        vendor_email:
+          type: string
+          description: User Email Address
+          example: john@doe.com
+        vendor_id:
+          type: string
+          description: Unique Spryte Vendor Identifier
+          example: KqDt6LkmfeP0gFiVOgy6
+        num_of_devs:
+          type: integer
+          description: Number Of Devs Associated With the Vendor
+          example: 3
+        devs:
+          type: array
+          description: List of Devs that are associated with this Vendor
+          example: [
+            {
+            "minContractTeamSize": 1,
+            "first": "dart",
+            "devID": "0",
+            "status": true,
+            "last": "go for it",
+            "position": "UI/UX Expert",
+            "rating": 1.324,
+            "crossVendor": false,
+            "profileProgress": {
+                "stacksProgress": 0.875,
+                "sectorsProgress": 1,
+                "categoriesProgress": 0.75,
+                "ratesProgress": 1
+            }
+        },
+        {
+            "minContractTeamSize": 1,
+            "first": "html dev",
+            "devID": "0",
+            "status": true,
+            "last": "not css",
+            "position": "Jr. Developer",
+            "rating": 2.2332,
+            "crossVendor": false,
+            "profileProgress": {
+                "stacksProgress": 0.75,
+                "sectorsProgress": 1,
+                "ratesProgress": 1,
+                "categoriesProgress": 0.75
+            }
+        },
+        {
+            "minContractTeamSize": 1,
+            "first": "css dev",
+            "devID": "0",
+            "status": true,
+            "last": "not html",
+            "position": "Mid. Developer",
+            "rating": 3,
+            "crossVendor": false,
+            "profileProgress": {
+                "sectorsProgress": 1,
+                "categoriesProgress": 0.25,
+                "stacksProgress": 0.25,
+                "ratesProgress": 1
+            }
+        }
+          ]
+        num_of_requests_today:
+          type: integer
+          description: Total number of API requests made for the day
+          example: 12
+
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      description: "API key to authorize requests. (If you don't have an API key, get one at https://sprytelab.com/."
+      name: apiKey
+      in: query
